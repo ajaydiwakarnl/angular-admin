@@ -124,24 +124,24 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr *ngFor="let product of productList | async">
               <td>
-                1
+                {{ product.id }}
               </td>
               <td>
-                Hello
+                {{ product.name }}
               </td>
               <td>
-                20
+                {{ product.price }}
               </td>
               <td>
-                1
+                {{ product.status }}
               </td>
               <td>
-                1
+                {{ product.sku }}
               </td>
               <td>
-                Hres
+                {{ product.attributes }}
               </td>
               <td>
                   <div class="row">
