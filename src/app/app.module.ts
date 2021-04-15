@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -16,6 +16,7 @@ import { AuthGuard } from './auth.guard';
 import { ProductComponent } from './pages/product/product.component';
 import { AddProductComponent } from './pages/product/add-product/add-product.component';
 import {AdminGuardGuard} from './admin-guard.guard';
+import {NgxEditorModule} from 'ngx-editor';
 
 @NgModule({
   imports: [
@@ -27,6 +28,8 @@ import {AdminGuardGuard} from './admin-guard.guard';
     RouterModule,
     AppRoutingModule,
     ToastrModule.forRoot(),
+    NgxEditorModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     AppComponent,

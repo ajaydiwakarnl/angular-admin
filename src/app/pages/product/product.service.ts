@@ -1,16 +1,32 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 export interface ProductItem {
   attributes: string;
-  id: string;
   name: string;
-  price: number;
-  quantity: number;
   sku: string;
-  status: number;
+  condition: string;
+  category: string;
+  sub_category: string;
+  child_category: string;
+  estimate_shipping_time: string;
+  size_name: string;
+  size_qty: string;
+  size_price: string;
+  whole_sale_qty: string;
+  whole_sale_discount: string;
+  stock: string;
+  description: string;
+  return_policy: string;
+  address: string;
+  city: string;
+  country: string;
+  postal_code: string;
+  image: string;
+  price: string;
+  youtube_url: string;
 }
 
 interface ProductResponse {
@@ -32,4 +48,5 @@ export class ProductService {
       map(d => d.data)
     );
   }
+  saveProduct() {}
 }
