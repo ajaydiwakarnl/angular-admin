@@ -14,7 +14,7 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxEditorModule } from 'ngx-editor';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   imports: [
     CommonModule,
@@ -23,7 +23,8 @@ import { NgxEditorModule } from 'ngx-editor';
     HttpClientModule,
     NgbModule,
     NgxEditorModule,
-    ClipboardModule
+    ClipboardModule,
+    MatSlideToggleModule
   ],
   exports: [
     DashboardComponent

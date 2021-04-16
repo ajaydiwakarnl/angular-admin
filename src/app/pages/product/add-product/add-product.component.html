@@ -74,10 +74,10 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-email">Product SKU</label>
-                        <input type="text" id="input-email" class="form-control form-control-alternative" placeholder="SKU091212" formControlName="product_sku_value"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_sku_value.errors }">
-                        <div *ngIf="productSubmitted && productControlName.product_sku_value.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_name.errors">
+                        <input type="text" id="input-email" class="form-control form-control-alternative" placeholder="SKU091212" formControlName="product_sku"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_sku.errors }">
+                        <div *ngIf="productSubmitted && productControlName.product_sku.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.product_sku.errors">
                             This field must be required.
                           </div>
                         </div>
@@ -108,7 +108,8 @@
                       <label class="form-control-label" >Category</label>
                       <select class="form-control form-control-alternative" formControlName="product_category"
                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_category.errors }">
-                        <option>select</option>
+                        <option value="">select</option>
+                        <option value="mobile">Mobile</option>
                       </select>
                       <div *ngIf="productSubmitted && productControlName.product_category.errors" class="invalid-feedback">
                         <div *ngIf="productControlName.product_category.errors">
@@ -120,7 +121,8 @@
                       <label class="form-control-label">Sub Category</label>
                       <select class="form-control form-control-alternative" formControlName="product_sub_category"
                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_sub_category.errors }">
-                        <option>select</option>
+                        <option value="">select</option>
+                        <option value="mobile">Mobile</option>
                       </select>
                       <div *ngIf="productSubmitted && productControlName.product_sub_category.errors" class="invalid-feedback">
                         <div *ngIf="productControlName.product_sub_category.errors">
@@ -133,6 +135,7 @@
                       <select class="form-control form-control-alternative" formControlName="product_child_category"
                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_sub_category.errors }">
                         <option>select</option>
+                        <option value="mobile">Mobile</option>
                       </select>
                       <div *ngIf="productSubmitted && productControlName.product_child_category.errors" class="invalid-feedback">
                         <div *ngIf="productControlName.product_child_category.errors">

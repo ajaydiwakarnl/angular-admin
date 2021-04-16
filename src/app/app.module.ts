@@ -17,20 +17,22 @@ import { ProductComponent } from './pages/product/product.component';
 import { AddProductComponent } from './pages/product/add-product/add-product.component';
 import {AdminGuardGuard} from './admin-guard.guard';
 import {NgxEditorModule} from 'ngx-editor';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
-  imports: [
-    BrowserAnimationsModule,
-    FormsModule,
-    HttpClientModule,
-    ComponentsModule,
-    NgbModule,
-    RouterModule,
-    AppRoutingModule,
-    ToastrModule.forRoot(),
-    NgxEditorModule,
-    ReactiveFormsModule,
-  ],
+    imports: [
+        BrowserAnimationsModule,
+        FormsModule,
+        HttpClientModule,
+        ComponentsModule,
+        NgbModule,
+        RouterModule,
+        AppRoutingModule,
+        ToastrModule.forRoot(),
+        NgxEditorModule,
+        ReactiveFormsModule,
+        MatSlideToggleModule,
+    ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,

@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import { map } from 'rxjs/operators';
 
 export interface ProductItem {
+  id: number;
   attributes: string;
   name: string;
   sku: string;
@@ -27,6 +28,7 @@ export interface ProductItem {
   image: string;
   price: string;
   youtube_url: string;
+  status: number;
 }
 
 interface ProductResponse {
@@ -48,5 +50,10 @@ export class ProductService {
       map(d => d.data)
     );
   }
-  saveProduct() {}
+  saveProduct(formData) {
+    return this.http.post<ProductResponse>(this.baseUrl + 'create', formData);
+  }
+  changeStatus(id, status) {
+    return this.http.post<ProductResponse>(this.baseUrl + 'changeStatus', id, status );
+  }
 }

@@ -115,40 +115,43 @@
             <thead class="thead-light">
             <tr>
               <th scope="col">S.No</th>
-              <th scope="col">Product</th>
+              <th scope="col">Name</th>
+              <th scope="col">Sku</th>
+              <th scope="col">Stock</th>
               <th scope="col">Price</th>
               <th scope="col">Status</th>
-              <th scope="col">Sku</th>
-              <th scope="col">Atributes</th>
               <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let product of productList | async">
+            <tr *ngFor="let  product of productList | async ; index as key  ">
               <td>
-                {{ product.id }}
+                {{  key + 1}}
               </td>
               <td>
                 {{ product.name }}
               </td>
               <td>
-                {{ product.price }}
-              </td>
-              <td>
-                {{ product.status }}
-              </td>
-              <td>
                 {{ product.sku }}
               </td>
               <td>
-                {{ product.attributes }}
+                {{ product.stock }}
               </td>
+              <td>
+                {{ product.price}}
+              </td>
+              <td>
+                <label class="custom-toggle" *ngIf="product.status === 1">
+                  <input type="checkbox" (change)="changeStatus(product.id,product.status)" checked>
+                  <span class="custom-toggle-slider rounded-circle"></span>
+                </label>
+              </td>
+
               <td>
                   <div class="row">
                     <div class="col-2">
                       <a> <i class="fa fa-eye" aria-hidden="true" style="color: black;"></i></a>
                     </div>
-
                     <div class="col-2">
                         <a> <i class="fa fa-pencil-square-o" aria-hidden="true" style="color: cornflowerblue;"></i></a>
                       </div>
@@ -157,8 +160,6 @@
                       </div>
 
                   </div>
-
-
               </td>
             </tr>
 

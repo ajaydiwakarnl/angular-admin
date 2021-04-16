@@ -13,4 +13,10 @@ export class ProductComponent implements OnInit {
   async ngOnInit() {
     this.productList = this.productService.productList();
   }
+
+  changeStatus(id, status) {
+      this.productService.changeStatus(id , status).subscribe(res => {
+        console.log(res);
+      });
+  }
 }

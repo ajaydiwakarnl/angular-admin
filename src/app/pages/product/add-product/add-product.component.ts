@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {ProductItem, ProductService} from '../product.service';
+import {Router} from '@angular/router';
+import {NotificationService} from '../../../notification.service';
 
 @Component({
   selector: 'app-add-product',
@@ -11,15 +13,17 @@ import {ProductItem, ProductService} from '../product.service';
 export class AddProductComponent implements OnInit {
   productSubmitted = false;
   createProductForm: FormGroup;
-  constructor(public  formBuilder: FormBuilder, public productService: ProductService) {}
-  productData: Observable<ProductItem[]>;
+  constructor(public  formBuilder: FormBuilder,
+              public productService: ProductService,
+              public route: Router,
+              public toast: NotificationService) {}
   ngOnInit(): void {
     this.createProductForm = this.formBuilder.group({
       product_image             : ['', [Validators.required]],
       product_current_price     : ['', [Validators.required]],
       product_youtube_url       : [''],
       product_name              : ['', [Validators.required]],
-      product_sku_value         : ['', [Validators.required]],
+      product_sku               : ['', [Validators.required]],
       allow_product_condition   : [false],
       product_condition         : [''],
       product_category          : ['', [Validators.required]],
@@ -31,9 +35,9 @@ export class AddProductComponent implements OnInit {
       product_size              : [''],
       product_qty               : [''],
       product_size_price        : [''],
-      allow_product_whole_sell  : [''],
-      product_whole_qty         : ['', [Validators.required]],
-      product_whole_discount    : ['', [Validators.required]],
+      allow_product_whole_sell  : [false],
+      product_whole_qty         : [''],
+      product_whole_discount    : [''],
       product_stock             : ['', [Validators.required]],
       product_description       : ['', [Validators.required]],
       product_return_ploicy     : ['', [Validators.required]],
@@ -48,6 +52,9 @@ export class AddProductComponent implements OnInit {
     this.setConditionalValidations('allow_product_size', 'product_size', [Validators.required]);
     this.setConditionalValidations('allow_product_size', 'product_qty', [Validators.required]);
     this.setConditionalValidations('allow_product_size', 'product_size_price', [Validators.required]);
+
+
+
   }
 
   setConditionalValidations(dependsOn, control, validators) {
@@ -65,10 +72,19 @@ export class AddProductComponent implements OnInit {
   saveProduct() {
     this.productSubmitted = true;
     if (this.createProductForm.invalid) {
+      console.log(this.createProductForm.value);
        return;
     } else {
       const formValue = this.createProductForm.value;
-      this.productService.saveProduct();
+      this.productService.saveProduct(formValue).subscribe(res => {
+        console.log(res);
+        if (res.success === true) {
+          this.route.navigate(['/admin/product']);
+          this.toast.showSuccess(res.message, 'Success');
+        } else {
+          this.toast.showError(res.message, 'Error');
+        }
+      });
     }
   }
 
