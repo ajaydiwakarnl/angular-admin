@@ -14,6 +14,7 @@ export const AdminLayoutRoutes: Routes = [
       { path: 'dashboard',    component: DashboardComponent },
       { path: 'product',      component: ProductComponent },
       { path: 'add-product',  component: AddProductComponent },
+      { path: 'edit/:id',     component: AddProductComponent },
       { path: '**',  redirectTo: 'dashboard' } ,
     ]
   }

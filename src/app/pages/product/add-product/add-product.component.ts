@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {ProductItem, ProductService} from '../product.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NotificationService} from '../../../notification.service';
 
 @Component({
@@ -13,11 +13,19 @@ import {NotificationService} from '../../../notification.service';
 export class AddProductComponent implements OnInit {
   productSubmitted = false;
   createProductForm: FormGroup;
+  id: any;
   constructor(public  formBuilder: FormBuilder,
               public productService: ProductService,
               public route: Router,
-              public toast: NotificationService) {}
+              public toast: NotificationService,
+              private activRoute: ActivatedRoute) {}
+
+
   ngOnInit(): void {
+    this.id = this.activRoute.snapshot.params['id'];
+    if (this.id !== '') {
+      this.editProduct(this.id);
+    }
     this.createProductForm = this.formBuilder.group({
       product_image             : ['', [Validators.required]],
       product_current_price     : ['', [Validators.required]],
@@ -88,5 +96,47 @@ export class AddProductComponent implements OnInit {
     }
   }
 
+  editProduct(id) {
+    this.productService.editProduct(id).subscribe(res => {
+      this.createProductForm = this.formBuilder.group({
+        product_image             : [],
+        product_current_price     : [res.data['price']],
+        product_youtube_url       : [res.data['youtube_url']],
+        product_name              : [res.data['name']],
+        product_sku               : [res.data['sku']],
+        allow_product_condition   : [false],
+        product_condition         : [res.data['condition']],
+        product_category          : [res.data['category']],
+        product_sub_category      : [res.data['sub_category']],
+        product_child_category    : [res.data['child_category']],
+        allow_estimation_shiping_time : [false],
+        product_shipping_time     : [res.data['estimate_shipping_time']],
+        allow_product_size        : [false],
+        product_size              : [res.data['size_name']],
+        product_qty               : [res.data['size_qty']],
+        product_size_price        : [res.data['size_price']],
+        allow_product_whole_sell  : [false],
+        product_whole_qty         : [res.data['whole_sale_qty']],
+        product_whole_discount    : [res.data['whole_sale_discount']],
+        product_stock             : [res.data['stock']],
+        product_description       : [res.data['description']],
+        product_return_ploicy     : [res.data['return_policy']],
+        product_address           : [res.data['address']],
+        product_city              : [res.data['city']],
+        product_country           : [res.data['country']],
+        product_postal_code       : [res.data['postal_code']],
+      });
+      this.checkValueExist('product_condition', 'allow_product_condition');
+      this.checkValueExist('product_size',  'allow_product_size');
+      this.checkValueExist('product_whole_qty', 'allow_product_whole_sell');
+      this.checkValueExist('product_shipping_time', 'allow_estimation_shiping_time');
+    });
+  }
+  checkValueExist(dependsOn, control) {
+
+    if (this.createProductForm.get(dependsOn)) {
+        this.createProductForm.get(control).setValue('checked');
+    }
+  }
 
 }

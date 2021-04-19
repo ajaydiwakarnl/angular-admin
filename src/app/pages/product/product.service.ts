@@ -54,6 +54,10 @@ export class ProductService {
     return this.http.post<ProductResponse>(this.baseUrl + 'create', formData);
   }
   changeStatus(id, status) {
-    return this.http.post<ProductResponse>(this.baseUrl + 'changeStatus', id, status );
+    return this.http.post<ProductResponse>(this.baseUrl + 'changeStatus', {id, status});
+  }
+
+  editProduct(id) {
+    return this.http.post<ProductResponse>(this.baseUrl + 'editProduct', {id});
   }
 }
