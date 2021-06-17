@@ -3,44 +3,46 @@
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- Header container -->
 </div>
-<div class="container-fluid mt--7">
-  <form (submit)="saveProduct()" [formGroup]="createProductForm" >
+
+<div class="container-fluid mt--7" *ngIf="productForm">
+  <form (submit)="saveProduct()" [formGroup]="productForm" >
     <div class="row">
         <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
           <div class="card card-profile shadow">
             <div class="row justify-content-center">
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
-                  <div class="container">
-                    <img src="assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                  <div class="container" *ngIf="src">
+                    <img [src]="src" class="rounded-circle" style="height: 180px;width: 180px">
                   </div>
                 </div>
               </div>
             </div>
             <div class="card-body pt-0" style="margin-top: 150px;">
               <div class="form-group">
-                <label class="form-control-label" for="input-username">Product Current Price</label>
-                <input type="file"  class="form-control form-control-alternative" placeholder="Product Current Price" formControlName="product_image"
-                [ngClass]="{'is-invalid': productSubmitted && productControlName.product_image.errors }">
-                <div *ngIf="productSubmitted && productControlName.product_image.errors" class="invalid-feedback">
-                  <div *ngIf="productControlName.product_image.errors">
+                <label class="form-control-label" for="input-username">Product Image</label>
+                <input type="file" (change)="handleFileInput($event)" class="form-control form-control-alternative"
+                       formControlName="image"
+                [ngClass]="{'is-invalid': productSubmitted && productControlName.image.errors }">
+                <div *ngIf="productSubmitted && productControlName.image.errors" class="invalid-feedback">
+                  <div *ngIf="productControlName.image.errors">
                     This field must be required.
                   </div>
                 </div>
               </div>
               <div class="form-group">
                 <label class="form-control-label" for="input-username">Product Current Price</label>
-                <input type="text"  class="form-control form-control-alternative" placeholder="Product Current Price" formControlName="product_current_price"
-                       [ngClass]="{'is-invalid': productSubmitted && productControlName.product_current_price.errors }">
-                <div *ngIf="productSubmitted && productControlName.product_current_price.errors" class="invalid-feedback">
-                  <div *ngIf="productControlName.product_current_price.errors">
+                <input type="text"  class="form-control form-control-alternative" placeholder="Product Current Price" formControlName="price"
+                       [ngClass]="{'is-invalid': productSubmitted && productControlName.price.errors }">
+                <div *ngIf="productSubmitted && productControlName.price.errors" class="invalid-feedback">
+                  <div *ngIf="productControlName.price.errors">
                     This field must be required.
                   </div>
                 </div>
               </div>
               <div class="form-group">
                 <label class="form-control-label" for="input-username">Youtube Video URL</label>
-                <input type="text" class="form-control form-control-alternative" placeholder="Youtube Video URL" formControlName="product_youtube_url">
+                <input type="text" class="form-control form-control-alternative" placeholder="Youtube Video URL" formControlName="youtube_url">
               </div>
             </div>
 
@@ -51,7 +53,7 @@
             <div class="card-header bg-white border-0">
               <div class="row align-items-center">
                 <div class="col-8">
-                  <h3 class="mb-0">Product</h3>
+                  <h3 class="mb-0"> {{ !id ? 'Create Product' : 'Edit Product' }}</h3>
                 </div>
               </div>
             </div>
@@ -62,10 +64,10 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-username">Product Name</label>
-                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Product Name" formControlName="product_name"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_name.errors }">
-                        <div *ngIf="productSubmitted && productControlName.product_name.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_name.errors">
+                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Product Name" formControlName="name"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.name.errors }">
+                        <div *ngIf="productSubmitted && productControlName.name.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.name.errors">
                             This field must be required.
                           </div>
                         </div>
@@ -74,10 +76,10 @@
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-email">Product SKU</label>
-                        <input type="text" id="input-email" class="form-control form-control-alternative" placeholder="SKU091212" formControlName="product_sku"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_sku.errors }">
-                        <div *ngIf="productSubmitted && productControlName.product_sku.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_sku.errors">
+                        <input type="text" id="input-email" class="form-control form-control-alternative" placeholder="SKU091212" formControlName="sku"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.sku.errors }">
+                        <div *ngIf="productSubmitted && productControlName.sku.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.sku.errors">
                             This field must be required.
                           </div>
                         </div>
@@ -91,14 +93,14 @@
                   </div>
                   <div class="form-group" *ngIf="productCondition.checked">
                     <label class="form-control-label" >Product Condition</label>
-                    <select class="form-control form-control-alternative" formControlName="product_condition"
-                            [ngClass]="{'is-invalid': productSubmitted && productControlName.product_condition.errors }">
+                    <select class="form-control form-control-alternative" formControlName="condition"
+                            [ngClass]="{'is-invalid': productSubmitted && productControlName.condition.errors }">
                       <option value="">select</option>
                       <option>Used</option>
                       <option>New</option>
                     </select>
-                    <div *ngIf="productSubmitted && productControlName.product_condition.errors" class="invalid-feedback">
-                      <div *ngIf="productControlName.product_condition.errors">
+                    <div *ngIf="productSubmitted && productControlName.condition.errors" class="invalid-feedback">
+                      <div *ngIf="productControlName.condition.errors">
                         This field must be required.
                       </div>
                     </div>
@@ -106,39 +108,39 @@
                   <div class="row">
                     <div class="col-lg-4 form-group">
                       <label class="form-control-label" >Category</label>
-                      <select class="form-control form-control-alternative" formControlName="product_category"
-                              [ngClass]="{'is-invalid': productSubmitted && productControlName.product_category.errors }">
+                      <select class="form-control form-control-alternative" formControlName="category"
+                              [ngClass]="{'is-invalid': productSubmitted && productControlName.category.errors }">
                         <option value="">select</option>
                         <option value="mobile">Mobile</option>
                       </select>
-                      <div *ngIf="productSubmitted && productControlName.product_category.errors" class="invalid-feedback">
-                        <div *ngIf="productControlName.product_category.errors">
+                      <div *ngIf="productSubmitted && productControlName.category.errors" class="invalid-feedback">
+                        <div *ngIf="productControlName.category.errors">
                           This field must be required.
                         </div>
                       </div>
                     </div>
                     <div class="col-lg-4 form-group">
                       <label class="form-control-label">Sub Category</label>
-                      <select class="form-control form-control-alternative" formControlName="product_sub_category"
-                              [ngClass]="{'is-invalid': productSubmitted && productControlName.product_sub_category.errors }">
+                      <select class="form-control form-control-alternative" formControlName="sub_category"
+                              [ngClass]="{'is-invalid': productSubmitted && productControlName.sub_category.errors }">
                         <option value="">select</option>
                         <option value="mobile">Mobile</option>
                       </select>
-                      <div *ngIf="productSubmitted && productControlName.product_sub_category.errors" class="invalid-feedback">
-                        <div *ngIf="productControlName.product_sub_category.errors">
+                      <div *ngIf="productSubmitted && productControlName.sub_category.errors" class="invalid-feedback">
+                        <div *ngIf="productControlName.sub_category.errors">
                           This field must be required.
                         </div>
                       </div>
                     </div>
                     <div class="col-lg-4 form-group">
                       <label class="form-control-label" >Child Category</label>
-                      <select class="form-control form-control-alternative" formControlName="product_child_category"
-                              [ngClass]="{'is-invalid': productSubmitted && productControlName.product_sub_category.errors }">
+                      <select class="form-control form-control-alternative" formControlName="child_category"
+                              [ngClass]="{'is-invalid': productSubmitted && productControlName.sub_category.errors }">
                         <option>select</option>
                         <option value="mobile">Mobile</option>
                       </select>
-                      <div *ngIf="productSubmitted && productControlName.product_child_category.errors" class="invalid-feedback">
-                        <div *ngIf="productControlName.product_child_category.errors">
+                      <div *ngIf="productSubmitted && productControlName.child_category.errors" class="invalid-feedback">
+                        <div *ngIf="productControlName.child_category.errors">
                           This field must be required.
                         </div>
                       </div>
@@ -151,10 +153,10 @@
                   </div>
                   <div class="form-group" *ngIf="estimatedShippingTime.checked">
                     <label class="form-control-label" for="input-username">Product Estimated Shipping Time</label>
-                    <input type="text"  class="form-control form-control-alternative" placeholder="product_name" formControlName="product_shipping_time"
-                           [ngClass]="{'is-invalid': productSubmitted && productControlName.product_shipping_time.errors }">
-                    <div *ngIf="productSubmitted && productControlName.product_shipping_time.errors" class="invalid-feedback">
-                      <div *ngIf="productControlName.product_shipping_time.errors">
+                    <input type="text"  class="form-control form-control-alternative" placeholder="estimate_shipping_time" formControlName="estimate_shipping_time"
+                           [ngClass]="{'is-invalid': productSubmitted && productControlName.estimate_shipping_time.errors }">
+                    <div *ngIf="productSubmitted && productControlName.estimate_shipping_time.errors" class="invalid-feedback">
+                      <div *ngIf="productControlName.estimate_shipping_time.errors">
                         This field must be required.
                       </div>
                     </div>
@@ -169,11 +171,11 @@
                       <label class="form-control-label" >Size Name</label>
                       <span><small> (S,M,L,XL,XXL,3XL,4XL)</small></span>
                       <div class="form-group">
-                        <input type="text"  class="form-control form-control-alternative" placeholder="Product Size Name" formControlName="product_size"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_size.errors }">
+                        <input type="text"  class="form-control form-control-alternative" placeholder="Product Size Name" formControlName="size_name"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.size_name.errors }">
 
-                        <div *ngIf="productSubmitted && productControlName.product_size.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_size.errors">
+                        <div *ngIf="productSubmitted && productControlName.size_name.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.size_name.errors">
                             This field must be required.
                           </div>
                         </div>
@@ -183,11 +185,11 @@
                       <label class="form-control-label">Size Qty: </label>&nbsp;
                       <span><small> (Number of quantity of this size)</small></span>
                       <div class="form-group">
-                        <input type="text"  class="form-control form-control-alternative" placeholder="Product Qty" formControlName="product_qty"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_qty.errors }">
+                        <input type="text"  class="form-control form-control-alternative" placeholder="Product Qty" formControlName="size_qty"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.size_qty.errors }">
 
-                        <div *ngIf="productSubmitted && productControlName.product_qty.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_qty.errors">
+                        <div *ngIf="productSubmitted && productControlName.size_qty.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.size_qty.errors">
                             This field must be required.
                           </div>
                         </div>
@@ -197,10 +199,10 @@
                       <label class="form-control-label">Size Price: </label>&nbsp;
                       <span><small> (This price will added to base price)</small></span>
                       <div class="form-group">
-                        <input type="text"  class="form-control form-control-alternative" placeholder="Product Size" formControlName="product_size_price"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_size_price.errors }">
-                        <div *ngIf="productSubmitted && productControlName.product_size_price.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_size.errors">
+                        <input type="text"  class="form-control form-control-alternative" placeholder="Product Size" formControlName="size_price"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.size_price.errors }">
+                        <div *ngIf="productSubmitted && productControlName.size_price.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.size_price.errors">
                             This field must be required.
                           </div>
                         </div>
@@ -223,10 +225,10 @@
                   <div class="row" *ngIf="productWholeSell.checked">
                     <div class="col-lg-6 form-group">
                       <div class="form-group">
-                        <input type="text"  class="form-control form-control-alternative" placeholder="Quantity" formControlName="product_whole_qty"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_whole_qty.errors }">
-                        <div *ngIf="productSubmitted && productControlName.product_whole_qty.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_whole_qty.errors">
+                        <input type="text"  class="form-control form-control-alternative" placeholder="Quantity" formControlName="whole_sale_qty"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.whole_sale_qty.errors }">
+                        <div *ngIf="productSubmitted && productControlName.whole_sale_qty.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.whole_sale_qty.errors">
                             This field must be required.
                           </div>
                         </div>
@@ -234,10 +236,10 @@
                     </div>
                     <div class="col-lg-6 form-group">
                       <div class="form-group">
-                        <input type="text"  class="form-control form-control-alternative" placeholder="Discount Percentage" formControlName="product_whole_discount"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_whole_discount.errors }">
-                        <div *ngIf="productSubmitted && productControlName.product_whole_discount.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_whole_discount.errors">
+                        <input type="text"  class="form-control form-control-alternative" placeholder="Discount Percentage" formControlName="whole_sale_discount"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.whole_sale_discount.errors }">
+                        <div *ngIf="productSubmitted && productControlName.whole_sale_discount.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.whole_sale_discount.errors">
                             This field must be required.
                           </div>
                         </div>
@@ -252,10 +254,10 @@
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" for="input-username">Product Stock  (leave Empty will always availble )</label>
-                    <input type="text"  class="form-control form-control-alternative" placeholder="Product Stock" formControlName="product_stock"
-                           [ngClass]="{'is-invalid': productSubmitted && productControlName.product_stock.errors }">
-                    <div *ngIf="productSubmitted && productControlName.product_stock.errors" class="invalid-feedback">
-                      <div *ngIf="productControlName.product_stock.errors">
+                    <input type="text"  class="form-control form-control-alternative" placeholder="Product Stock" formControlName="stock"
+                           [ngClass]="{'is-invalid': productSubmitted && productControlName.stock.errors }">
+                    <div *ngIf="productSubmitted && productControlName.stock.errors" class="invalid-feedback">
+                      <div *ngIf="productControlName.stock.errors">
                         This field must be required.
                       </div>
                     </div>
@@ -265,11 +267,11 @@
                     <div class="form-control-alternative">
                      <!-- <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
                       <ngx-editor [editor]="editor" [ngModel]="html" ></ngx-editor>-->
-                      <textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ..." formControlName="product_description"
-                                [ngClass]="{'is-invalid': productSubmitted && productControlName.product_description.errors }">
+                      <textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ..." formControlName="description"
+                                [ngClass]="{'is-invalid': productSubmitted && productControlName.description.errors }">
                       </textarea>
-                      <div *ngIf="productSubmitted && productControlName.product_description.errors" class="invalid-feedback">
-                        <div *ngIf="productControlName.product_description.errors">
+                      <div *ngIf="productSubmitted && productControlName.description.errors" class="invalid-feedback">
+                        <div *ngIf="productControlName.description.errors">
                           This field must be required.
                         </div>
                       </div>
@@ -281,11 +283,11 @@
                     <div class="form-control-alternative">
                       <!-- <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
                        <ngx-editor [editor]="editor" [ngModel]="html" ></ngx-editor>-->
-                      <textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ..." formControlName="product_return_ploicy"
-                                [ngClass]="{'is-invalid': productSubmitted && productControlName.product_return_ploicy.errors }">
+                      <textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ..." formControlName="return_policy"
+                                [ngClass]="{'is-invalid': productSubmitted && productControlName.return_policy.errors }">
                       </textarea>
-                      <div *ngIf="productSubmitted && productControlName.product_return_ploicy.errors" class="invalid-feedback">
-                        <div *ngIf="productControlName.product_return_ploicy.errors">
+                      <div *ngIf="productSubmitted && productControlName.return_policy.errors" class="invalid-feedback">
+                        <div *ngIf="productControlName.return_policy.errors">
                           This field must be required.
                         </div>
                       </div>
@@ -302,24 +304,35 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label class="form-control-label" for="input-address">Address</label>
-                        <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" type="text" formControlName="product_address"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_address.errors }">
-                        <div *ngIf="productSubmitted && productControlName.product_address.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_address.errors">
+
+                        <input id="input-address"  class="form-control form-control-alternative"
+                               type="text" placeholder="Search Address" #search formControlName="address"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.address.errors }">
+
+                        <div *ngIf="productSubmitted && productControlName.address.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.address.errors">
                             This field must be required.
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                  <div class="pl-lg-4">
+                    <div class="col-md-12">
+                      <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" style="height:400px;">
+                        <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                        ></agm-marker>
+                      </agm-map>
+                    </div>
+                  </div>
                   <div class="row">
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label class="form-control-label" for="input-city">City</label>
-                        <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" formControlName="product_city"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_city.errors }">
-                        <div *ngIf="productSubmitted && productControlName.product_city.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_city.errors">
+                        <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" formControlName="city"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.city.errors }">
+                        <div *ngIf="productSubmitted && productControlName.city.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.city.errors">
                             This field must be required.
                           </div>
                         </div>
@@ -328,10 +341,10 @@
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label class="form-control-label" for="input-country">Country</label>
-                        <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Country" formControlName="product_country"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_country.errors }">
-                        <div *ngIf="productSubmitted && productControlName.product_country.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_country.errors">
+                        <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Country" formControlName="country"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.country.errors }">
+                        <div *ngIf="productSubmitted && productControlName.country.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.country.errors">
                             This field must be required.
                           </div>
                         </div>
@@ -340,10 +353,10 @@
                     <div class="col-lg-4">
                       <div class="form-group">
                         <label class="form-control-label" for="input-country">Postal code</label>
-                        <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Postal code" formControlName="product_postal_code"
-                               [ngClass]="{'is-invalid': productSubmitted && productControlName.product_postal_code.errors }">
-                        <div *ngIf="productSubmitted && productControlName.product_postal_code.errors" class="invalid-feedback">
-                          <div *ngIf="productControlName.product_postal_code.errors">
+                        <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Postal code" formControlName="postal_code"
+                               [ngClass]="{'is-invalid': productSubmitted && productControlName.postal_code.errors }">
+                        <div *ngIf="productSubmitted && productControlName.postal_code.errors" class="invalid-feedback">
+                          <div *ngIf="productControlName.postal_code.errors">
                             This field must be required.
                           </div>
                         </div>
@@ -354,7 +367,7 @@
                 <!-- SAVE -->
                 <div class="text-center" style="margin-top: 20px;">
                   <button type="submit" class="btn btn-default">
-                    Create Product
+                    {{ !id  ? 'Create Product' : 'Update Product'}}
                   </button>
                 </div>
             </div>

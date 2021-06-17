@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
+import {environment as env} from '../../../environments/environment';
 
 export interface ProductItem {
   id: number;
@@ -31,33 +32,42 @@ export interface ProductItem {
   status: number;
 }
 
-interface ProductResponse {
+interface ApiResponse<T> {
   success: boolean;
   message: string;
-  data: ProductItem[];
+  data: T;
+  totalPageCount: number;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  baseUrl = 'http://localhost:2000/api/product/';
-  responeData: any;
-  constructor(public  http: HttpClient, public  router: Router) {}
+  constructor(public http: HttpClient, public router: Router) {
+  }
 
-  productList() {
-    return this.http.get<ProductResponse>(this.baseUrl + 'index').pipe(
-      map(d => d.data)
-    );
+  productList(page, limit) {
+    console.log(page);
+    return this.http.get<ApiResponse<Array<ProductItem>>>(`${env.baseURL}/products?page=${page}&limit=${limit}`);
   }
-  saveProduct(formData) {
-    return this.http.post<ProductResponse>(this.baseUrl + 'create', formData);
+
+  saveProduct(_, formData) {
+    return this.http.post<ApiResponse<String>>(`${env.baseURL}/product`, formData);
   }
+
+  updateProduct(id, formData) {
+    return this.http.post<ApiResponse<String>>(`${env.baseURL}/product/${id}`, formData);
+  }
+
   changeStatus(id, status) {
-    return this.http.post<ProductResponse>(this.baseUrl + 'changeStatus', {id, status});
+    return this.http.post<ApiResponse<String>>(`${env.baseURL}/product/changeStatus`, {id, status});
   }
 
-  editProduct(id) {
-    return this.http.post<ProductResponse>(this.baseUrl + 'editProduct', {id});
+  getProductById(id) {
+    return this.http.get<ApiResponse<ProductItem>>(`${env.baseURL}/product/${id}`);
+  }
+
+  searchProduct(keyword) {
+    return this.http.get<ApiResponse<Array<ProductItem>>>(`${env.baseURL}/product/search/${keyword}`).pipe(map(d => d.data));
   }
 }

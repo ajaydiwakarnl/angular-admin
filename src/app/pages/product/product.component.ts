@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProductItem, ProductService} from './product.service';
-import {Observable} from 'rxjs';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 import {NotificationService} from '../../notification.service';
 
@@ -10,29 +9,55 @@ import {NotificationService} from '../../notification.service';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
+
 export class ProductComponent implements OnInit {
-  productList: Observable<ProductItem[]>;
-  constructor(public  productService: ProductService,
-              public  formBuilder: FormBuilder,
-              public router: Router,
-              public toast: NotificationService) { }
+  productList: Array<ProductItem>;
+  keyword: any;
+  totalRecords: any;
+  recordsPerPage = 3;
+
+  constructor(
+    public productService: ProductService,
+    public formBuilder: FormBuilder,
+    public router: Router,
+    public toast: NotificationService
+  ) {
+  }
+
+  getDataForPage(page) {
+    this.productService.productList(page, this.recordsPerPage).subscribe(res => {
+      console.log(res.data);
+      this.productList = res.data;
+      this.totalRecords = res.totalPageCount;
+    });
+  }
 
   async ngOnInit() {
-    this.productList = this.productService.productList();
+    this.getDataForPage(1);
   }
 
   changeStatus(id, status) {
-      this.productService.changeStatus(id, status).subscribe(res => {
-        if (res.success === true) {
-          this.router.navigate(['/admin/product']);
-          this.toast.showSuccess(res.message, 'Success');
-        } else {
-          this.toast.showError(res.message, 'Error');
-        }
-      });
+    this.productService.changeStatus(id, status).subscribe(res => {
+      if (res.success === true) {
+        this.router.navigate(['/admin/product']);
+        this.toast.showSuccess(res.message, 'Success');
+      } else {
+        this.toast.showError(res.message, 'Error');
+      }
+    });
   }
 
   editProduct(id) {
     this.router.navigate(['admin/edit', id]);
+  }
+
+  searchKeyword(event) {
+    this.keyword = event;
+    console.log(this.keyword);
+    console.log(this.productList);
+  }
+
+  displayActivePage(activePageNumber) {
+    this.getDataForPage(activePageNumber);
   }
 }

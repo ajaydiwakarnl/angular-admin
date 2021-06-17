@@ -6,7 +6,7 @@ import { AuthLayoutRoutes } from './auth-layout.routing';
 
 import { LoginComponent } from '../../pages/login/login.component';
 import { RegisterComponent } from '../../pages/register/register.component';
-import { LoginService } from '../../pages/login/login.service';
+
 
 @NgModule({
   imports: [

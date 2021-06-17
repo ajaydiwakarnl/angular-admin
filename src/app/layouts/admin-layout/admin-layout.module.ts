@@ -15,6 +15,9 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxEditorModule } from 'ngx-editor';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -24,7 +27,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     NgbModule,
     NgxEditorModule,
     ClipboardModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatPaginatorModule
   ],
   exports: [
     DashboardComponent

@@ -12,12 +12,11 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { ToastrModule } from 'ngx-toastr';
 import { NotificationService} from './notification.service';
-import { AuthGuard } from './auth.guard';
 import { ProductComponent } from './pages/product/product.component';
 import { AddProductComponent } from './pages/product/add-product/add-product.component';
-import {AdminGuardGuard} from './admin-guard.guard';
 import {NgxEditorModule} from 'ngx-editor';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
     imports: [
@@ -32,13 +31,19 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         NgxEditorModule,
         ReactiveFormsModule,
         MatSlideToggleModule,
+        AgmCoreModule.forRoot({
+        //  apiKey: 'AIzaSyBTH_dyBbthf89iPZMs0b3c_F3K-QYcS_M',
+         apiKey: 'AIzaSyCuMsQ_KY7KLSTUNQqBZ1IYhkyFNR8sugI',
+          libraries: ['places'],
+        })
     ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
     ProductComponent,
-    AddProductComponent
+    AddProductComponent,
+
   ],
   providers: [
     NotificationService,
