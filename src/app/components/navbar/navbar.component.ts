@@ -4,6 +4,14 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { Router } from '@angular/router';
 import {LoginService} from '../../pages/login/login.service';
 
+
+
+declare interface HeaderInfo {
+  path: string;
+  title: string;
+  icon: string;
+  action: any;
+}
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -13,6 +21,7 @@ export class NavbarComponent implements OnInit {
   public focus;
   public listTitles: any[];
   public location: Location;
+  public menuItems: any[];
   constructor(
     location: Location,
     private element: ElementRef,
@@ -22,8 +31,15 @@ export class NavbarComponent implements OnInit {
     this.location = location;
   }
 
+  headerName: HeaderInfo[] = [
+    { path: '/admin/profile', title: 'My Profile',  icon: 'ni-single-02', action: '' },
+    { path: '/admin/profile', title: 'Settings',  icon: 'ni-settings-gear-65', action: ''},
+    { path: '#', title: 'Logout',  icon: 'ni-user-run', action: this.doLogout.bind(this)},
+  ];
+
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
+    this.menuItems = this.headerName.filter(menuItem => menuItem);
   }
   getTitle() {
     let titlee = this.location.prepareExternalUrl(this.location.path());
@@ -36,7 +52,8 @@ export class NavbarComponent implements OnInit {
             return this.listTitles[item].title;
         }
     }
-    return 'Dashboard';
+
+    return  'Dashboard';
   }
 
   doLogout() {
@@ -44,3 +61,4 @@ export class NavbarComponent implements OnInit {
   }
 
 }
+

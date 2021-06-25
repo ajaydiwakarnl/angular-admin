@@ -1,0 +1,15 @@
+.tab_active {
+  border-bottom: 2px solid lightskyblue;
+}
+.marginTop_100{
+  margin-top: 100px;
+}
+.marginTop_30{
+  margin-top: 30px;
+}
+.cardHeader{
+  background-color:#d3d3d338;
+  padding:10px 10px 10px 10px;
+}
+
+

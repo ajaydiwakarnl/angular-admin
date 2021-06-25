@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -17,6 +17,15 @@ import { AddProductComponent } from './pages/product/add-product/add-product.com
 import {NgxEditorModule} from 'ngx-editor';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { AgmCoreModule } from '@agm/core';
+import {ProfileComponent} from './pages/profile/profile.component';
+import { UsersComponent } from './pages/users/users.component';
+import {AuthInterceptor} from './auth.interceptor';
+import { UserDetailComponent } from './pages/users/user-detail/user-detail.component';
+import {SlidingTabsModule} from 'angular-sliding-tabs';
+import {MatTabsModule} from '@angular/material/tabs';
+
+import { DeliveryBoyComponent } from './pages/delivery_boy/delivery-boy/delivery-boy.component';
+
 
 @NgModule({
     imports: [
@@ -32,10 +41,12 @@ import { AgmCoreModule } from '@agm/core';
         ReactiveFormsModule,
         MatSlideToggleModule,
         AgmCoreModule.forRoot({
-        //  apiKey: 'AIzaSyBTH_dyBbthf89iPZMs0b3c_F3K-QYcS_M',
-         apiKey: 'AIzaSyCuMsQ_KY7KLSTUNQqBZ1IYhkyFNR8sugI',
-          libraries: ['places'],
-        })
+            //  apiKey: 'AIzaSyBTH_dyBbthf89iPZMs0b3c_F3K-QYcS_M',
+            apiKey: 'AIzaSyCuMsQ_KY7KLSTUNQqBZ1IYhkyFNR8sugI',
+            libraries: ['places'],
+        }),
+        SlidingTabsModule,
+        MatTabsModule
     ],
   declarations: [
     AppComponent,
@@ -43,10 +54,18 @@ import { AgmCoreModule } from '@agm/core';
     AuthLayoutComponent,
     ProductComponent,
     AddProductComponent,
-
+    ProfileComponent,
+    UsersComponent,
+    UserDetailComponent,
+    DeliveryBoyComponent
   ],
   providers: [
     NotificationService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

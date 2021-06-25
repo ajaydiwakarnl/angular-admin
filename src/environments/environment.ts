@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseURL: 'http://localhost:2000/api',
+  baseURL: 'http://localhost:2000/foodapp/api',
+  adminbaseURL: 'http://localhost:2000/foodapp/admin',
 };
 
 /*

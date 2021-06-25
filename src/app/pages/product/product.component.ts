@@ -48,13 +48,11 @@ export class ProductComponent implements OnInit {
   }
 
   editProduct(id) {
-    this.router.navigate(['admin/edit', id]);
+    this.router.navigate(['admin/product/edit', id]);
   }
 
   searchKeyword(event) {
     this.keyword = event;
-    console.log(this.keyword);
-    console.log(this.productList);
   }
 
   displayActivePage(activePageNumber) {

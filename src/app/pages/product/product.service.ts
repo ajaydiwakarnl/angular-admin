@@ -47,7 +47,6 @@ export class ProductService {
   }
 
   productList(page, limit) {
-    console.log(page);
     return this.http.get<ApiResponse<Array<ProductItem>>>(`${env.baseURL}/products?page=${page}&limit=${limit}`);
   }
 

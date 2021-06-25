@@ -1,0 +1,151 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-4">
+      <div class="card card-profile shadow">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <a href="javascript:void(0)">
+                <img [src]="src" class="circular_rounded-inner-page">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pt-0 pt-md-4 marginTop_100" >
+          <div class="text-center">
+            <h3>{{userName}}</h3>
+            <div class="h5 font-weight-300">
+              <i class="ni location_pin mr-2"></i>{{email}}
+            </div>
+            <div class="h5 font-weight-300">
+              <i class="ni location_pin mr-2"></i>{{phone}}
+            </div>
+
+            <div><h4 class="text-danger">{{status}}</h4></div>
+            <hr class="my-4" />
+            <h4>Total Order :  <span>0</span> </h4>
+            <a (click)="status == 'Disable' ? changeStatus(0) : changeStatus(1)"><button class="btn btn-danger ">{{status == 'Active' ? 'Disable' : 'Active'}}</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8 order-xl-1">
+      <div class="card  shadow">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-2 {{ tabActive == 'address' ? 'tab_active' : '' }}" (click)="changeTab('address')">
+              <div class="text-center">
+                <h3>Address</h3>
+              </div>
+            </div>
+            <div class="col-lg-2 {{ tabActive == 'orders' ? 'tab_active' : '' }}" (click)="changeTab('orders')">
+              <div class="text-center">
+                <h3>Orders</h3>
+              </div>
+            </div>
+          </div>
+          <div *ngIf=" tabActive === 'address'">
+            <div *ngFor="let  address of addressLists ; index as key ">
+              <div class="card  shadow marginTop_30">
+                <div class="cardHeader">
+                  <i class="ni ni-square-pin"></i> &nbsp;&nbsp;&nbsp;<span> <b>{{ address.type}}</b></span>
+                </div>
+                <div class="card-body">
+                  <div class="col-lg-12" >
+                    <b>House / Flat No : </b> &nbsp;&nbsp;&nbsp; <span> {{ address.houseFlatNo}}</span>
+                  </div>
+                  <div class="col-lg-12" >
+                    <b>Address: </b> &nbsp;&nbsp;&nbsp; <span> {{ address.fullAddress}}</span>
+                  </div>
+                  <div class="col-lg-12" >
+                    <b>Landmark : </b> &nbsp;&nbsp;&nbsp; <span> {{ address.landMark}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf=" tabActive === 'orders'">
+            <div class="card  shadow marginTop_30">
+              <div class="cardHeader">
+                <i class="ni ni-delivery-fast"></i> &nbsp;&nbsp;&nbsp;<span> <b>Order List</b></span>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive ">
+                  <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                      <th scope="col"> S.No	</th>
+                      <th scope="col">	Ref Id</th>
+                      <th scope="col">Outlet</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Total</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr >
+                      <td>
+                        1
+                      </td>
+                      <td>
+                        ORDER#1613070676
+                      </td>
+                      <td>
+                        2 States
+                      </td>
+                      <td>
+                        2021-02-11 12:11:16
+                      </td>
+                      <td>
+                        $139.99
+                      </td>
+                      <td>
+                        reachUserLocation
+                      </td>
+                      <td>
+                        <button class="btn btn-primary">View</button>
+                      </td>
+                    </tr>
+                    <tr >
+                      <td>
+                        2
+                      </td>
+                      <td>
+                        ORDER#1613070676
+                      </td>
+                      <td>
+                        2 States
+                      </td>
+                      <td>
+                        2021-02-11 12:11:16
+                      </td>
+                      <td>
+                        $139.99
+                      </td>
+                      <td>
+                        reachUserLocation
+                      </td>
+                      <td>
+                        <button class="btn btn-primary">View</button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="card-footer py-4">
+                  <app-pagination [totalRecords]="totalRecords" [recordsPerPage]="recordsPerPage" (onPageChange)="displayActivePage($event)"></app-pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
